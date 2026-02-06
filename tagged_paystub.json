@@ -1,0 +1,54 @@
+{
+  "source": {
+    "image": "sample_paystub.png",
+    "ocr_file": "sample_ocr.tsv"
+  },
+  "tags": {
+    "EMPLOYER_COMPANY_NAME": "Anyhow AI",
+    "EMPLOYEE_NAME": "Yuyao Bai",
+    "PAY_PERIOD_START_DATE": "01/16/2026",
+    "PAY_PERIOD_END_DATE": "01/31/2026",
+    "PAY_DATE": "02/06/2026",
+    "REGULAR_PAY_AMOUNT": "$4,166.67",
+    "GROSS_PAY_YTD": "$12,500.67",
+    "GROSS_PAY_CURRENT": "$4,166.67",
+    "NET_PAY_YTD": "$8,683.53",
+    "NET_PAY_CURRENT": "$2,894.29",
+    "DEDUCTION_YTD": "$3,817.14",
+    "DEDUCTION_CURRENT": "$1,272.38",
+    "EMPLOYEE_ADDRESS": null,
+    "COMPANY_ADDRESS": "81 Wellesley Street East, Toronto, ON M4Y 0C5"
+  },
+  "confidence": {
+    "EMPLOYER_COMPANY_NAME": 0.98,
+    "EMPLOYEE_NAME": 0.96,
+    "PAY_PERIOD_START_DATE": 0.95,
+    "PAY_PERIOD_END_DATE": 0.95,
+    "PAY_DATE": 0.97,
+    "REGULAR_PAY_AMOUNT": 0.96,
+    "GROSS_PAY_YTD": 0.96,
+    "GROSS_PAY_CURRENT": 0.96,
+    "NET_PAY_YTD": 0.96,
+    "NET_PAY_CURRENT": 0.97,
+    "DEDUCTION_YTD": 0.96,
+    "DEDUCTION_CURRENT": 0.96,
+    "EMPLOYEE_ADDRESS": 0.0,
+    "COMPANY_ADDRESS": 0.95
+  },
+  "schema": [
+    "EMPLOYER_COMPANY_NAME",
+    "EMPLOYEE_NAME",
+    "PAY_PERIOD_START_DATE",
+    "PAY_PERIOD_END_DATE",
+    "PAY_DATE",
+    "REGULAR_PAY_AMOUNT",
+    "GROSS_PAY_YTD",
+    "GROSS_PAY_CURRENT",
+    "NET_PAY_YTD",
+    "NET_PAY_CURRENT",
+    "DEDUCTION_YTD",
+    "DEDUCTION_CURRENT",
+    "EMPLOYEE_ADDRESS",
+    "COMPANY_ADDRESS"
+  ]
+}

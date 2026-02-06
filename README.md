@@ -2,151 +2,147 @@
 
 This project demonstrates how **Claude Code** (Anthropic's CLI for Claude) can be used to extract and tag information from financial documents using Named Entity Recognition (NER).
 
+## Features
+
+- **Image + OCR Input**: Takes paystub image and OCR TSV file as inputs
+- **Standard Tag Schema**: Uses consistent paystub entity tags
+- **Multiple Output Formats**: JSON, CSV, TSV, Markdown
+- **Confidence Scores**: Provides extraction confidence for each tag
+
+## Tag Schema
+
+The following standardized tags are used for paystub NER:
+
+| Tag | Description |
+|-----|-------------|
+| `EMPLOYER_COMPANY_NAME` | Name of the employer/company |
+| `EMPLOYEE_NAME` | Name of the employee |
+| `PAY_PERIOD_START_DATE` | Start date of pay period |
+| `PAY_PERIOD_END_DATE` | End date of pay period |
+| `PAY_DATE` | Date of payment |
+| `REGULAR_PAY_AMOUNT` | Regular earnings amount |
+| `GROSS_PAY_YTD` | Year-to-date gross pay |
+| `GROSS_PAY_CURRENT` | Current period gross pay |
+| `NET_PAY_YTD` | Year-to-date net pay |
+| `NET_PAY_CURRENT` | Current period net pay |
+| `DEDUCTION_YTD` | Year-to-date deductions |
+| `DEDUCTION_CURRENT` | Current period deductions |
+| `EMPLOYEE_ADDRESS` | Employee's address |
+| `COMPANY_ADDRESS` | Employer's address |
+
+## Usage
+
+### Command Line
+
+```bash
+python paystub_tagger.py --image <image_path> --ocr <ocr.tsv> --output <output_base>
+```
+
+### Options
+
+| Option | Short | Description | Required |
+|--------|-------|-------------|----------|
+| `--image` | `-i` | Path to paystub image | Yes |
+| `--ocr` | `-o` | Path to OCR TSV file | Yes |
+| `--output` | `-out` | Output filename base (no extension) | No (default: tagged_output) |
+| `--format` | `-f` | Output formats: json, csv, tsv, md, all | No (default: all) |
+
+### Example
+
+```bash
+python paystub_tagger.py -i sample_paystub.png -o sample_ocr.tsv -out tagged_paystub -f all
+```
+
+## Input Files
+
+### Image File
+Any standard image format (PNG, JPG, etc.) containing the paystub.
+
+### OCR TSV File
+Tab-separated file with OCR results. Expected columns:
+- `text`: Extracted text
+- `x`, `y`: Bounding box position
+- `width`, `height`: Bounding box dimensions
+- `confidence`: OCR confidence score
+
+Example:
+```tsv
+text	x	y	width	height	confidence
+Anyhow AI	50	30	150	25	0.98
+Yuyao Bai	50	145	100	20	0.96
+```
+
+## Output Files
+
+### JSON (`tagged_paystub.json`)
+Structured data with tags, values, and confidence scores.
+
+### CSV (`tagged_paystub.csv`)
+Flat format for spreadsheet import.
+
+### TSV (`tagged_paystub.tsv`)
+Tab-separated format for annotation tools.
+
+### Markdown (`tagged_paystub.md`)
+Human-readable report with tables.
+
 ## Process Flowchart
 
 ```mermaid
 flowchart TD
-    A[User Provides Paystub Image] --> B[Claude Code Reads Image]
-    B --> C{Skill Detection}
-    C --> D[Load financial-document-parser Skill]
-    D --> E[Document Type Identification]
-    E --> F[Earnings Statement / Paystub]
+    A[Input: Paystub Image] --> C[Paystub Tagger]
+    B[Input: OCR TSV File] --> C
+    C --> D[Entity Extraction]
+    D --> E[Tag Mapping]
+    E --> F[Confidence Scoring]
+    F --> G[Output Generation]
+    G --> H1[JSON]
+    G --> H2[CSV]
+    G --> H3[TSV]
+    G --> H4[Markdown]
 
-    F --> G[Named Entity Recognition]
-
-    G --> H1[ORGANIZATION Entities]
-    G --> H2[PERSON Entities]
-    G --> H3[DATE Entities]
-    G --> H4[MONEY Entities]
-    G --> H5[ID Entities]
-
-    H1 --> I[Employer: Anyhow AI<br/>Address: Toronto, ON]
-    H2 --> J[Employee: Yuyao Bai]
-    H3 --> K[Pay Period: 01/16-01/31/2026<br/>Pay Date: 02/06/2026]
-    H4 --> L[Earnings, Deductions, Net Pay]
-    H5 --> M[SSN: XXX-XX-4996]
-
-    I & J & K & L & M --> N[Structured Data Extraction]
-
-    N --> O[Generate Output Formats]
-    O --> P1[Markdown Report]
-    O --> P2[CSV Export]
-    O --> P3[JSON Structure]
-
-    P1 & P2 & P3 --> Q[Push to GitHub]
-
-    style A fill:#e1f5fe
-    style D fill:#fff3e0
-    style G fill:#f3e5f5
-    style N fill:#e8f5e9
-    style Q fill:#fce4ec
+    style A fill:#e3f2fd
+    style B fill:#e3f2fd
+    style C fill:#fff3e0
+    style G fill:#e8f5e9
 ```
 
-## What is Claude Code?
+## Sample Results
 
-[Claude Code](https://docs.anthropic.com/en/docs/claude-code) is Anthropic's official CLI tool that brings Claude's AI capabilities directly to your terminal. It can:
-- Read and analyze files (including images)
-- Execute commands
-- Write and edit code
-- Use specialized "skills" for domain-specific tasks
+From `sample_paystub.png`:
 
-## Skills Used
-
-### 1. Financial Document Parser Skill
-A specialized skill that extracts structured data from financial documents with automatic categorization and analysis.
-
-**Skill Location:** `.claude/skills/financial-document-parser/SKILL.md`
-
-**Capabilities:**
-- Identify document types (invoices, receipts, statements, paystubs)
-- Extract core financial information
-- Categorize expenses
-- Generate structured output in multiple formats
-
-### 2. Built-in Vision/OCR
-Claude Code's multimodal capabilities allow it to directly read and interpret images, including:
-- Text extraction from images
-- Understanding document layouts
-- Recognizing financial data patterns
-
-## The Process
-
-### Step 1: Skill Installation
-```bash
-mkdir -p .claude/skills/financial-document-parser
-# Download and extract skill
-```
-
-### Step 2: Image Analysis
-Claude Code reads the paystub image using its multimodal vision capabilities. No external OCR tool is needed - Claude can directly interpret the image content.
-
-### Step 3: Document Type Identification
-The financial-document-parser skill identifies the document as an **Earnings Statement (Paystub)** from Canada.
-
-### Step 4: Named Entity Recognition (NER)
-Claude extracts and tags entities into categories:
-
-| Entity Type | Examples Extracted |
-|-------------|-------------------|
-| **ORGANIZATION** | Anyhow AI, 81 Wellesley Street East, Toronto, ON |
-| **PERSON** | Yuyao Bai |
-| **DATE** | 01/16/2026, 01/31/2026, 02/06/2026 |
-| **MONEY** | $4,166.67, $2,894.29, $12,500.67, etc. |
-| **ID** | XXX-XX-4996 (SSN masked) |
-
-### Step 5: Structured Data Generation
-Output is generated in three formats:
-- **Markdown** (`paystub_analysis.md`) - Human-readable report
-- **CSV** (`paystub_analysis.csv`) - Spreadsheet-compatible flat data
-- **JSON** (`paystub_analysis.json`) - Structured hierarchical data
+| Tag | Value | Confidence |
+|-----|-------|------------|
+| EMPLOYER_COMPANY_NAME | Anyhow AI | 98% |
+| EMPLOYEE_NAME | Yuyao Bai | 96% |
+| PAY_PERIOD_START_DATE | 01/16/2026 | 95% |
+| PAY_PERIOD_END_DATE | 01/31/2026 | 95% |
+| PAY_DATE | 02/06/2026 | 97% |
+| REGULAR_PAY_AMOUNT | $4,166.67 | 96% |
+| GROSS_PAY_YTD | $12,500.67 | 96% |
+| GROSS_PAY_CURRENT | $4,166.67 | 96% |
+| NET_PAY_YTD | $8,683.53 | 96% |
+| NET_PAY_CURRENT | $2,894.29 | 97% |
+| DEDUCTION_YTD | $3,817.14 | 96% |
+| DEDUCTION_CURRENT | $1,272.38 | 96% |
+| COMPANY_ADDRESS | 81 Wellesley Street East, Toronto, ON M4Y 0C5 | 95% |
 
 ## Files in This Repository
 
 | File | Description |
 |------|-------------|
-| `sample_paystub.png` | Original Canadian paystub image |
-| `paystub_analysis.md` | Markdown analysis report |
-| `paystub_analysis.csv` | CSV export with NER tags |
-| `paystub_analysis.json` | JSON structured data |
-| `flowchart.md` | Mermaid flowchart source |
-| `README.md` | This documentation |
+| `paystub_tagger.py` | Main tagger script |
+| `sample_paystub.png` | Sample Canadian paystub image |
+| `sample_ocr.tsv` | Sample OCR output |
+| `tagged_paystub.json` | JSON output |
+| `tagged_paystub.csv` | CSV output |
+| `tagged_paystub.tsv` | TSV output |
+| `tagged_paystub.md` | Markdown output |
 
-## Sample Extracted Data
+## Requirements
 
-### Financial Summary
-| Category | Current | Year to Date |
-|----------|---------|--------------|
-| Gross Pay | $4,166.67 | $12,500.67 |
-| Deductions | $1,272.38 | $3,817.14 |
-| Net Pay | $2,894.29 | $8,683.53 |
-
-### Deductions Breakdown (YTD)
-- Federal CPP: $717.72
-- Federal EI: $203.76
-- Canada Income Tax: $1,954.77
-- Ontario Provincial Tax: $940.89
-
-## Insights Generated
-- Pay frequency: Semi-monthly
-- Estimated annual salary: ~$100,000 CAD
-- Effective tax rate YTD: ~30.5%
-- Jurisdiction: Ontario, Canada
-
-## How to Reproduce
-
-1. Install Claude Code:
-   ```bash
-   npm install -g @anthropic-ai/claude-code
-   ```
-
-2. Install the financial-document-parser skill (or create your own)
-
-3. Provide a financial document image to Claude Code
-
-4. Ask Claude to extract and tag the information:
-   ```
-   "Extract information from this paystub, tag entities, and export to JSON/CSV/Markdown"
-   ```
+- Python 3.7+
+- No external dependencies (uses standard library only)
 
 ## License
 
