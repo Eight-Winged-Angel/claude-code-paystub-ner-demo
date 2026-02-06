@@ -1,0 +1,19 @@
+Entity_Type,Field,Value
+ORGANIZATION,Employer,Anyhow AI
+ORGANIZATION,Address,"81 Wellesley Street East, Toronto, ON M4Y 0C5"
+PERSON,Employee_Name,Yuyao Bai
+ID,SSN_Last4,4996
+DATE,Pay_Period_Start,2026-01-16
+DATE,Pay_Period_End,2026-01-31
+DATE,Pay_Date,2026-02-06
+MONEY,Regular_Income_Current,4166.67
+MONEY,Federal_CPP_YTD,717.72
+MONEY,Federal_EI_YTD,203.76
+MONEY,Canada_Income_Tax_YTD,1954.77
+MONEY,Ontario_PIT_YTD,940.89
+MONEY,YTD_Gross,12500.67
+MONEY,YTD_Deductions,3817.14
+MONEY,YTD_Net_Pay,8683.53
+MONEY,Current_Total,4166.67
+MONEY,Current_Deductions,1272.38
+MONEY,Net_Pay,2894.29

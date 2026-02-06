@@ -1,0 +1,70 @@
+{
+  "document": {
+    "type": "Earnings Statement",
+    "title": "Earnings Statement",
+    "source_file": "sample_paystub.png"
+  },
+  "entities": {
+    "ORGANIZATION": {
+      "employer": "Anyhow AI",
+      "address": {
+        "street": "81 Wellesley Street East",
+        "city": "Toronto",
+        "province": "ON",
+        "postal_code": "M4Y 0C5",
+        "country": "Canada"
+      }
+    },
+    "PERSON": {
+      "employee_name": "Yuyao Bai"
+    },
+    "IDENTIFICATION": {
+      "social_security_id": "XXX-XX-4996",
+      "ssn_last4": "4996",
+      "employee_id": null
+    },
+    "DATE": {
+      "pay_period_start": "2026-01-16",
+      "pay_period_end": "2026-01-31",
+      "pay_date": "2026-02-06"
+    }
+  },
+  "earnings": {
+    "current": {
+      "regular_income": 4166.67
+    },
+    "ytd": {
+      "gross": 12500.67
+    }
+  },
+  "deductions": {
+    "current": {
+      "total": 1272.38
+    },
+    "ytd": {
+      "federal_cpp": 717.72,
+      "federal_ei": 203.76,
+      "canada_income_tax": 1954.77,
+      "ontario_pit": 940.89,
+      "total": 3817.14
+    }
+  },
+  "summary": {
+    "current": {
+      "gross": 4166.67,
+      "deductions": 1272.38,
+      "net_pay": 2894.29
+    },
+    "ytd": {
+      "gross": 12500.67,
+      "deductions": 3817.14,
+      "net_pay": 8683.53
+    }
+  },
+  "insights": {
+    "pay_frequency": "semi-monthly",
+    "estimated_annual_salary": 100000.08,
+    "effective_tax_rate_ytd": 0.305,
+    "jurisdiction": "Ontario, Canada"
+  }
+}
