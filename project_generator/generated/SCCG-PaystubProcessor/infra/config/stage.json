@@ -1,0 +1,5 @@
+{
+  "environment": "stage",
+  "projectName": "PaystubProcessor",
+  "awsRegion": "us-east-1"
+}

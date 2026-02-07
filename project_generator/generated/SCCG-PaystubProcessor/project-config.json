@@ -1,0 +1,32 @@
+{
+  "project_name": "PaystubProcessor",
+  "project_prefix": "SCCG",
+  "document_type": "Paystub",
+  "description": "Paystub processing solution",
+  "aws_region": "us-east-1",
+  "aws_account": "123456789012",
+  "stacks": {
+    "infra": true,
+    "lambda_functions": true,
+    "lambda_layers": true,
+    "database": true,
+    "s3_static": true,
+    "web_app": true
+  },
+  "ai_services": {
+    "textract": true,
+    "comprehend": false,
+    "bedrock": false,
+    "custom_model": false
+  },
+  "infra_language": "typescript",
+  "lambda_language": "python",
+  "web_framework": "react",
+  "compliance": {
+    "audit_logging": true,
+    "encryption_at_rest": true,
+    "vpc_isolation": true,
+    "waf_protection": false
+  },
+  "output_dir": "./generated"
+}
