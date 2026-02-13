@@ -1,127 +1,179 @@
-# Enterprise Structured Document Generation Framework
+# doc-revision Skill
 
-> A team-level reusable framework to reduce PM/BA cognitive load when writing structured enterprise documents
+> **Template Intelligence Engine** - Generate enterprise documents by learning from previous versions
+
+**Version**: 0.3
+**Status**: Ready for Testing
 
 ---
 
 ## 🎯 What This Is
 
-An **Enterprise Structured Document Generation Framework** that:
+The **doc-revision** skill generates updated document versions by dynamically learning template structure from previous versions (PDF/Word/Markdown).
+
+**Key Capabilities**:
 - Extracts templates from previous documents (not hardcoded)
 - Uses stability-based inheritance (smart defaults)
-- Asks controlled, gap-focused questions (no unnecessary prompts)
+- Asks controlled, gap-focused questions (3-5 per turn)
 - Builds documents incrementally (section-by-section)
 - Outputs Confluence-ready content (copy-paste ready)
+- Never asks about metadata (status, approvers, version, dates)
 
-**This is NOT**: A one-off Test Plan writer, PRD generator, or single-use prompt tool
+**This is NOT**: A template loader or one-time document generator
 
 ---
 
-## 🏗️ Three-Layer Architecture
+## 🏗️ Five-Phase Workflow
 
-### Layer 1: Template Intelligence
-Extracts structure, formatting, and content shape from previous documents
+### Phase 1: Template Extraction
+Parse structure, formatting, and section shapes from uploaded document
 
-### Layer 2: Construction Engine (Core Skill)
-Orchestrates the entire generation process:
-- Section taxonomy & stability classification
-- Inheritance logic
-- Controlled interview engine
-- Incremental writer
-- Formalization & review loops
-- Confluence renderer
+### Phase 2: Stability Classification
+Classify sections as Stable/Evolving/Volatile
 
-### Layer 3: Domain Adapter
-Document-specific profiles:
-- **Test Plan** (Phase 1)
-- PRD, BRD, Architecture Doc, Risk Assessment (Future)
+### Phase 3: Controlled Build Plan
+Present plan, get user confirmation before proceeding
+
+### Phase 4: Section-by-Section Construction
+Incremental building with targeted interviews (3-5 questions per turn)
+
+### Phase 5: Confluence Renderer
+Copy-paste ready output with proper formatting
 
 ---
 
 ## 📂 Project Structure
 
 ```
-enterprise-doc-framework/
+doc-revision/
 ├── CLAUDE.md          # Full project memory (read this after /clear)
-├── PROGRESS.md        # Milestone tracker
-└── README.md          # This file
+├── README.md          # This file
+└── skills/            # Supporting skills library
+    ├── doc-revision/  # Main skill (source of truth)
+    │   └── SKILL.md
+    ├── content-research-writer/
+    ├── docx/
+    ├── pdf/
+    ├── markdown-tools/
+    └── skill-creator/
 
-.claude/skills/
-├── pdf/               # Parse PDF files
-├── docx/              # Create Word documents
-├── markdown-tools/    # Convert to markdown
-├── skill-creator/     # Skill development guide
-└── content-research-writer/  # Formalize casual → professional (customized for PM/BA)
+.claude/skills/        # Claude Code registration directory
+└── doc-revision/      # Synced from doc-revision/skills/doc-revision/
+    └── SKILL.md
 ```
 
 ---
 
-## ✅ Milestone 1: Foundation Setup (COMPLETE)
+## 🎯 When to Use doc-revision
 
-**Completed**:
-1. ✅ Project structure created
-2. ✅ Explained module architecture
-3. ✅ Downloaded 5 marketplace skills
-4. ✅ Customized content-research-writer for PM/BA use
+**Use this skill when:**
+- User has a previous document version (PDF/Word/Markdown)
+- User wants to create an updated version
+- User provides trigger like "Feature X test plan 2.1" or "Write next version of this document"
 
-**Date**: 2026-02-13
-
----
-
-## ⏳ Next: Milestone 2 - Skill Design
-
-After `/clear`, proceed with:
-1. Read `CLAUDE.md` to restore full context
-2. Design the `enterprise-doc-framework` skill structure
-3. Design module interfaces
-4. Create Test Plan profile
+**Example triggers:**
+- "Feature X test plan 2.1"
+- "Write next version of this document"
+- "Update this enterprise document based on previous PDF"
 
 ---
 
-## 📊 Module Architecture
+## 🆚 doc-revision vs doc-expert
+
+| Aspect | doc-revision | doc-expert |
+|--------|--------------|-----------|
+| **User Knowledge** | Has previous version | Doesn't know how to write |
+| **Input** | Previous document (PDF/Word) | Minimal info (5 questions) |
+| **Approach** | Template-driven update | Expert-driven generation |
+| **Questions** | 3-5 questions per turn | 5 questions max per turn |
+| **Metadata** | Inherits/auto-increments | Auto-fills all metadata |
+| **Output** | Updated version | Draft from scratch |
+
+---
+
+## 🔑 Core Modules
 
 | Module | Purpose |
 |--------|---------|
 | `template-extractor` | Parse docs → extract schema |
-| `taxonomy` | Classify sections (type + stability) |
-| `interview-engine` | Controlled questioning |
-| `writer` | Formalize + write incrementally |
-| `renderer` | Confluence-ready output |
-| `inheritance` | Version-to-version logic |
+| `stability-classifier` | Classify sections (Stable/Evolving/Volatile) |
+| `interview-engine` | Controlled questioning (3-5 per turn) |
+| `incremental-writer` | Section-by-section construction |
+| `confluence-renderer` | Confluence-ready output |
+| `inheritance-logic` | Version-to-version defaults |
 
 ---
 
 ## 🔑 Key Principles
 
-1. **Template-Driven**: Extract structure dynamically, not hardcoded
-2. **Stability-Based**: Stable sections inherit, unstable rewrite
-3. **Controlled**: Only ask about real gaps, length-limited
-4. **Incremental**: Build section-by-section
-5. **Version-Aware**: Smart inheritance from previous versions
+1. **Template-Driven**: Dynamically learns templates from previous versions (not hardcoded)
+2. **Stability-Based**: Stable sections inherit by default, unstable sections force rewrite
+3. **Controlled Interviews**: 3-5 focused questions per turn, no metadata questions
+4. **Incremental Construction**: Build section-by-section, never auto-generate entire document
+5. **Table Atomicity**: Table sections handled row-by-row (smallest unit of work)
+6. **Metadata Inheritance**: Automatically inherit/increment version, status, dates
+7. **Confluence-Ready**: Proper heading levels, table formatting, copy-paste ready
+
+---
+
+## 🚀 Workflow Example
+
+```
+Input: Previous Test Plan v2.0 (PDF) + "Feature X v2.1 Test Plan"
+↓
+[Phase 1] Template Extraction
+→ Sections: 1. Overview, 2. Test Scope, 3. Test Cases (table)
+→ Heading levels: H2 / H3 / H4
+→ Table structure: 5 columns (ID, Description, Steps, Expected, Status)
+↓
+[Phase 2] Stability Classification
+→ "Overview" → STABLE (inherit by default)
+→ "Test Scope" → EVOLVING (ask for changes)
+→ "Test Cases" → VOLATILE (force rewrite, row-by-row)
+↓
+[Phase 3] Build Plan
+→ Present plan, get user confirmation
+↓
+[Phase 4] Section-by-Section Construction
+→ For stable sections: Show previous, ask if changes needed
+→ For volatile sections: Ask 3-5 questions, formalize, show preview
+→ For tables: Row-by-row iteration
+↓
+[Phase 5] Confluence Renderer
+→ Convert to Confluence format, copy-paste ready
+```
 
 ---
 
 ## 📚 Documentation
 
-- **CLAUDE.md**: Full project memory, architecture, workflow
-- **PROGRESS.md**: Milestone tracker with detailed status
+- **CLAUDE.md**: Full project memory, architecture, detailed workflow
 - **README.md**: This quick reference
+- **skills/doc-revision/SKILL.md**: Main skill implementation
 
 ---
 
-## 🚀 Future Vision
+## 🎓 Document Type Profiles
 
-Extend to multiple document types:
-- Test Plans (Phase 1)
-- PRDs
-- BRDs
-- Architecture Specs
-- Risk Assessments
-- QA Strategies
-- Release Plans
-- SOPs
+Current support:
+- ✅ **Test Plans** (primary use case)
+- ⏳ PRDs (future)
+- ⏳ BRDs (future)
+- ⏳ Architecture Specs (future)
+- ⏳ Risk Assessments (future)
 
 ---
 
-**Last Updated**: 2026-02-13
-**Status**: Milestone 1 Complete → Ready for Milestone 2
+## 🧪 Testing Instructions
+
+1. Provide a previous version document (PDF/Word/Markdown)
+2. Use trigger prompt: `"Feature X test plan 2.1"` or `"Write next version of this document"`
+3. Skill should activate and follow 5-phase workflow
+4. Verify no metadata questions (status, approvers, etc.)
+5. Verify controlled interviews (3-5 questions per turn)
+
+---
+
+**Last Updated**: 2026-02-14
+**Status**: v0.3 - Ready for Testing
+**Location**: `.claude/skills/doc-revision/SKILL.md`
